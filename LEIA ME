@@ -1,0 +1,64 @@
+O sistema compact_imovel é uma plataforma simples para aluguel por dia de quartos, peças ou espaços, integrada com pagamentos via Aura. Ele funciona através da geração de URLs personalizadas que se conectam à API de pagamentos, permitindo que cada usuário tenha seu próprio link de cobrança. Para configurar, você precisa criar seu cadastro, gerar seu arquivo de pagamento e ajustar o código PHP no carrinho. 
+
+🔧 Como funciona o sistema
+Objetivo: permitir que proprietários anunciem imóveis ou espaços para aluguel por dia.
+
+Integração de pagamentos: utiliza a API Aura, que gera QR Codes e links de pagamento.
+
+URLs personalizadas: cada usuário tem um arquivo próprio (username.php) que processa os pagamentos.
+
+Carrinho de compras: o sistema gera links dinâmicos com o valor e o ID da compra, exibindo um botão de pagamento.
+
+⚙️ Passos para configurar
+Cadastro inicial
+
+Acesse: https://carlitoslocacoes.com/farolqr/site/register_odonto2.php
+
+Crie sua conta no sistema.
+
+Identificação do usuário
+
+Vá para: https://carlitoslocacoes.com/farolqr/site/identificacao_farolqr.php
+
+Confirme seus dados e gere sua identificação.
+
+Criação do arquivo de pagamento
+
+Use: https://carlitoslocacoes.com/pulse/create.php
+
+Informe seu username e a chave extra: xs2_portal_extra.
+
+Isso gera o arquivo username.php (ex.: carlitopautz_farolqr.php).
+
+Montagem da URL de pagamento
+
+Estrutura:
+
+Código
+https://carlitoslocacoes.com/pulse/{username}.php?valor=$valor&compra_id=$compra_id
+Substitua:
+
+$valor → valor total da compra (somente inteiro, use intval).
+
+$compra_id → ID do imóvel ou lista de IDs.
+
+Exemplo:
+
+Código
+https://carlitoslocacoes.com/pulse/carlitopautz_farolqr.php?valor=350000&compra_id=42
+Integração no carrinho (PHP)
+
+php
+<?php
+session_start();
+$valorCompra = intval($imovel['preco']);
+$compraId    = $imovel['id'];
+$usernameaura = "carlitopautz_farolqr";
+
+$linkAura = "https://carlitoslocacoes.com/pulse/{$usernameaura}.php?valor={$valorCompra}&compra_id={$compraId}";
+?>
+<div class="option aura">
+  <a href="<?= $linkAura ?>">
+    ✨ Pagar com Aura - R$<?= number_format($valorCompra, 2, ',', '.') ?>
+  </a>
+</div>
