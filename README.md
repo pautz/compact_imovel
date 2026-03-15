@@ -1,6 +1,9 @@
 # compact_imovel
 compact imovel, alugue por dia seu quarto, peça, item, ou espaço
 utilize os dois sql para criar o banco de dados
+
+troque o 127.0.0.1 pelo seu endereço
+
 # API de Pagamentos em Aura
 
 
